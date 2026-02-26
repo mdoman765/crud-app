@@ -1,0 +1,222 @@
+<div class="page">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <button class="breadcrumb__back" (click)="cancel()">
+      <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+      </svg>
+      Products
+    </button>
+    <span class="breadcrumb__sep">/</span>
+    <span class="breadcrumb__current">{{ isEdit() ? 'Edit Product' : 'New Product' }}</span>
+  </div>
+
+  <div class="form-layout">
+
+    <!-- ── Main Form Card ────────────────────────────── -->
+    <div class="form-card">
+      <div class="form-card__header">
+        <div class="form-card__header-icon">
+          @if (isEdit()) {
+            <svg viewBox="0 0 20 20" fill="currentColor" width="22" height="22"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
+          } @else {
+            <svg viewBox="0 0 20 20" fill="currentColor" width="22" height="22"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/></svg>
+          }
+        </div>
+        <div>
+          <h1 class="form-card__title">{{ isEdit() ? 'Edit Product' : 'Add New Product' }}</h1>
+          <p class="form-card__subtitle">{{ isEdit() ? 'Update the product details below' : 'Fill in the details to create a new product' }}</p>
+        </div>
+      </div>
+
+      @if (loading()) {
+        <div class="loading-state">
+          <div class="loading-spinner"></div>
+          <p>Loading product data...</p>
+        </div>
+      } @else {
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+
+          <!-- Section: Basic Info -->
+          <div class="form-section">
+            <h2 class="form-section__title">
+              <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14">
+                <path fill-rule="evenodd" d="M2 4a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm4 0a1 1 0 00-1 1v2a1 1 0 001 1h4a1 1 0 001-1V5a1 1 0 00-1-1H6z" clip-rule="evenodd"/>
+              </svg>
+              Basic Information
+            </h2>
+            <div class="form-grid">
+
+              <div class="field field--full">
+                <label class="field__label">
+                  Product Name <span class="field__required">*</span>
+                </label>
+                <input class="field__input" [class.field__input--error]="isInvalid('name')"
+                  formControlName="name" placeholder="e.g. MacBook Pro 16&quot;" />
+                @if (isInvalid('name')) {
+                  <p class="field__error">
+                    <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12">
+                      <path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm9 3a1 1 0 11-2 0 1 1 0 012 0zm-1-7a1 1 0 00-1 1v3a1 1 0 102 0V5a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                    Name is required (minimum 2 characters)
+                  </p>
+                }
+              </div>
+
+              <div class="field">
+                <label class="field__label">
+                  Price (USD) <span class="field__required">*</span>
+                </label>
+                <div class="field__prefix-wrap">
+                  <span class="field__prefix">$</span>
+                  <input class="field__input field__input--has-prefix"
+                    [class.field__input--error]="isInvalid('price')"
+                    formControlName="price" type="number" min="0" step="0.01" placeholder="0.00" />
+                </div>
+                @if (isInvalid('price')) {
+                  <p class="field__error">
+                    <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12">
+                      <path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm9 3a1 1 0 11-2 0 1 1 0 012 0zm-1-7a1 1 0 00-1 1v3a1 1 0 102 0V5a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                    Please enter a valid price
+                  </p>
+                }
+              </div>
+
+              <div class="field">
+                <label class="field__label">
+                  Stock Quantity <span class="field__required">*</span>
+                </label>
+                <div class="field__prefix-wrap">
+                  <span class="field__prefix">
+                    <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13">
+                      <path d="M8 1a2 2 0 012 2v4H6V3a2 2 0 012-2zm3 6V3a3 3 0 10-6 0v4a2 2 0 00-2 2v5a2 2 0 002 2h6a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+                    </svg>
+                  </span>
+                  <input class="field__input field__input--has-prefix"
+                    [class.field__input--error]="isInvalid('stock')"
+                    formControlName="stock" type="number" min="0" placeholder="0" />
+                </div>
+                @if (isInvalid('stock')) {
+                  <p class="field__error">
+                    <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12">
+                      <path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm9 3a1 1 0 11-2 0 1 1 0 012 0zm-1-7a1 1 0 00-1 1v3a1 1 0 102 0V5a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                    Stock quantity is required
+                  </p>
+                }
+              </div>
+
+              <div class="field">
+                <label class="field__label">Category</label>
+                <input class="field__input" formControlName="category"
+                  list="cat-list" placeholder="e.g. Electronics, Furniture..." />
+                <datalist id="cat-list">
+                  @for (cat of categories(); track cat) {
+                    <option [value]="cat" />
+                  }
+                </datalist>
+              </div>
+
+              <div class="field">
+                <label class="field__label">Status</label>
+                <label class="toggle">
+                  <input type="checkbox" formControlName="isActive" />
+                  <span class="toggle__track">
+                    <span class="toggle__thumb"></span>
+                  </span>
+                  <span class="toggle__text"
+                    [class.toggle__text--on]="form.value.isActive">
+                    {{ form.value.isActive ? 'Active – visible to users' : 'Inactive – hidden' }}
+                  </span>
+                </label>
+              </div>
+
+              <div class="field field--full">
+                <label class="field__label">Description</label>
+                <textarea class="field__input field__textarea"
+                  formControlName="description" rows="3"
+                  placeholder="Describe the product features, specifications..."></textarea>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Section: Media -->
+          <div class="form-section">
+            <h2 class="form-section__title">
+              <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14">
+                <path fill-rule="evenodd" d="M2 3.5A1.5 1.5 0 013.5 2h9A1.5 1.5 0 0114 3.5v9a1.5 1.5 0 01-1.5 1.5h-9A1.5 1.5 0 012 12.5v-9zm5.75 6.25a.75.75 0 000-1.5.75.75 0 000 1.5zM4 6.5l2 2.5 3-3.5 3 4H4l.5-.5L4 6.5z" clip-rule="evenodd"/>
+              </svg>
+              Media
+            </h2>
+            <div class="form-grid">
+              <div class="field field--full">
+                <label class="field__label">Image URL</label>
+                <input class="field__input" formControlName="imageUrl"
+                  placeholder="https://example.com/product-image.jpg" />
+              </div>
+              @if (imagePreview) {
+                <div class="image-preview">
+                  <img [src]="imagePreview" alt="Preview" />
+                  <span class="image-preview__label">Preview</span>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <button type="button" class="btn-ghost" (click)="cancel()">
+              Cancel
+            </button>
+            <button type="submit" class="btn-primary" [disabled]="saving()">
+              @if (saving()) {
+                <span class="btn-spinner"></span> Saving...
+              } @else if (isEdit()) {
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293z"/>
+                </svg>
+                Update Product
+              } @else {
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                </svg>
+                Create Product
+              }
+            </button>
+          </div>
+
+        </form>
+      }
+    </div>
+
+    <!-- ── Side Tips Card ────────────────────────────── -->
+    <div class="tips-card">
+      <h3 class="tips-card__title">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+        </svg>
+        Tips
+      </h3>
+      <ul class="tips-card__list">
+        <li>Use a clear, descriptive product name for better searchability.</li>
+        <li>Add a high-quality image URL (min. 800×800px recommended).</li>
+        <li>Set stock to <strong>0</strong> if the product is currently unavailable.</li>
+        <li>Use categories consistently across products for easier filtering.</li>
+        <li>Mark products as <strong>Inactive</strong> instead of deleting if you plan to re-list them.</li>
+      </ul>
+
+      @if (isEdit()) {
+        <div class="tips-card__warn">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+          You are editing an existing product. Changes are permanent.
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

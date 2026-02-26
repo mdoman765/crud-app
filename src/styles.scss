@@ -1,38 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
-@use '@angular/material' as mat;
+// Angular Material theme is already set in the file by ng add @angular/material
+// Just append the global styles below the existing content
 
-html {
+html, body {
   height: 100%;
-  @include mat.theme((
-    color: (
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
-}
-
-body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
   margin: 0;
-  height: 100%;
+  font-family: 'Inter', Roboto, sans-serif;
+  background: #f0f4f8;
+  color: #1a2332;
+  -webkit-font-smoothing: antialiased;
 }
-/* You can add global styles to this file, and also import other style files */
+
+* { box-sizing: border-box; }
+
+.main-content {
+  min-height: calc(100vh - 64px);
+  background: #f0f4f8;
+}
+
+// Azure/Blue CSS variables to use throughout app
+:root {
+  --primary:       #0078d4;
+  --primary-dark:  #005a9e;
+  --primary-light: #e6f2fb;
+  --primary-mid:   #b3d6f5;
+  --accent:        #50e6ff;
+  --success:       #107c10;
+  --success-bg:    #dff6dd;
+  --error:         #a4262c;
+  --error-bg:      #fde7e9;
+  --warn:          #ff8c00;
+  --warn-bg:       #fff4ce;
+  --surface:       #ffffff;
+  --surface-alt:   #f0f4f8;
+  --border:        #d0d7de;
+  --border-focus:  #0078d4;
+  --text-primary:  #1a2332;
+  --text-secondary:#4a5568;
+  --text-muted:    #718096;
+  --shadow-sm:     0 1px 4px rgba(0,0,0,.08);
+  --shadow-md:     0 4px 16px rgba(0,120,212,.12);
+  --shadow-lg:     0 8px 32px rgba(0,120,212,.18);
+  --radius-sm:     6px;
+  --radius-md:     10px;
+  --radius-lg:     16px;
+  --radius-xl:     20px;
+}
+
+// Scrollbar
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: #f0f4f8; }
+::-webkit-scrollbar-thumb { background: var(--primary-mid); border-radius: 3px; }
