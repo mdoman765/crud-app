@@ -132,18 +132,32 @@
 
           <div class="product-card__top">
             <div class="product-card__image">
-              @if (product.imageUrl) {
-                <img [src]="product.imageUrl" [alt]="product.name" loading="lazy" />
-              } @else {
-                <div class="product-card__placeholder">
-                  <svg viewBox="0 0 48 48" fill="none">
-                    <rect width="48" height="48" rx="8" fill="#e6f2fb"/>
-                    <path d="M14 34l8-10 6 7 4-5 8 8H14z" fill="#b3d6f5"/>
-                    <circle cx="32" cy="18" r="4" fill="#b3d6f5"/>
-                  </svg>
-                </div>
-              }
-            </div>
+  @if (product.imageUrl) {
+    <!-- Real image -->
+    <img
+      [src]="product.imageUrl"
+      [alt]="product.name"
+      loading="lazy"
+      (error)="onImgError($event)" />
+    <!-- Fallback shown by onImgError() if image fails -->
+    <div class="product-card__placeholder" style="display:none">
+      <svg viewBox="0 0 48 48" fill="none">
+        <rect width="48" height="48" rx="8" fill="#e6f2fb"/>
+        <path d="M14 34l8-10 6 7 4-5 8 8H14z" fill="#b3d6f5"/>
+        <circle cx="32" cy="18" r="4" fill="#b3d6f5"/>
+      </svg>
+    </div>
+  } @else {
+    <!-- No image set -->
+    <div class="product-card__placeholder">
+      <svg viewBox="0 0 48 48" fill="none">
+        <rect width="48" height="48" rx="8" fill="#e6f2fb"/>
+        <path d="M14 34l8-10 6 7 4-5 8 8H14z" fill="#b3d6f5"/>
+        <circle cx="32" cy="18" r="4" fill="#b3d6f5"/>
+      </svg>
+    </div>
+  }
+</div>
 
             <div class="product-card__badges">
               @if (product.category) {

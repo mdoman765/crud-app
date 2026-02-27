@@ -32,7 +32,13 @@ export class ProductListComponent implements OnInit {
     this.loadCategories();
     this.loadProducts();
   }
-
+// Add inside the class body
+onImgError(event: Event) {
+  const img = event.target as HTMLImageElement;
+  img.style.display = 'none';   // hide broken img, show placeholder below
+  const placeholder = img.nextElementSibling as HTMLElement;
+  if (placeholder) placeholder.style.display = 'flex';
+}
   loadProducts() {
     this.loading.set(true);
     const activeFilter = this.isActive === '' ? undefined : this.isActive === 'true';
