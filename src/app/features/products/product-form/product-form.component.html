@@ -114,7 +114,7 @@
                   list="cat-list" placeholder="e.g. Electronics, Furniture..." />
                 <datalist id="cat-list">
                   @for (cat of categories(); track cat) {
-                    <option [value]="cat" />
+                    <option [value]="cat"></option>
                   }
                 </datalist>
               </div>
